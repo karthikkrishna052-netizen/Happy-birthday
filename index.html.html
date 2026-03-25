@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Annie ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:radial-gradient(circle at top,#0d001a,#1a0033,#2b004d);
+color:white;
+text-align:center;
+overflow-x:hidden;
+}
+
+.container{
+padding:25px;
+max-width:1000px;
+margin:auto;
+}
+
+.title{
+font-family:'Dancing Script',cursive;
+font-size:3.4rem;
+margin-top:10px;
+}
+
+.subtitle{opacity:.9}
+
+#countdown{
+font-size:1.8rem;
+font-weight:600;
+margin:20px 0;
+}
+
+button{
+padding:16px 30px;
+font-size:1.1rem;
+border:none;
+border-radius:40px;
+background:#ff2e63;
+color:white;
+cursor:pointer;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+transition:.25s;
+}
+
+button:hover{transform:scale(1.08)}
+
+/* stars */
+.star{
+position:fixed;
+background:white;
+border-radius:50%;
+animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{from{opacity:.2}to{opacity:1}}
+
+/* gift */
+.gift{font-size:90px;margin:25px 0;animation:bounce 2s infinite}
+
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+
+/* slideshow */
+.gallery{display:none;margin-top:30px}
+
+.slide{display:none}
+
+.slide img{
+width:95%;
+max-width:420px;
+border-radius:18px;
+box-shadow:0 10px 35px rgba(0,0,0,0.6);
+}
+
+.caption{margin-top:8px;opacity:.9}
+
+/* message */
+.message{
+display:none;
+margin-top:20px;
+font-size:1.1rem;
+line-height:1.6;
+max-width:650px;
+margin:auto;
+}
+
+/* fireworks canvas */
+canvas{position:fixed;top:0;left:0;pointer-events:none}
+
+/* 3D cake */
+.cake{display:none;margin-top:40px;perspective:700px}
+
+.cake-box{
+width:170px;height:130px;margin:auto;position:relative;
+transform-style:preserve-3d;
+animation:rotateCake 6s linear infinite;
+}
+
+@keyframes rotateCake{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
+
+.layer{position:absolute;width:170px;height:40px;background:#ff7aa2;border-radius:10px}
+.layer.top{top:0;background:#fff}
+.layer.mid{top:40px}
+.layer.bottom{top:80px}
+
+.candle{position:absolute;width:10px;height:30px;background:#ffd166;left:80px;top:-25px}
+
+.flame{
+width:12px;height:12px;background:orange;border-radius:50%;margin:auto;
+animation:flicker .4s infinite alternate;
+}
+
+@keyframes flicker{from{transform:scale(1)}to{transform:scale(1.25)}}
+
+/* gallery grid */
+.photo-grid{
+display:none;
+margin-top:40px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+gap:10px;
+}
+
+.photo-grid img{
+width:100%;border-radius:10px;cursor:pointer;
+}
+
+/* letter */
+.letter-btn{display:none;margin-top:25px}
+
+.letter{
+position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+background:white;color:#333;padding:25px;max-width:400px;border-radius:15px;
+box-shadow:0 10px 40px rgba(0,0,0,.4);display:none;text-align:left
+}
+
+/* cursor hearts */
+.cursor-heart{position:fixed;pointer-events:none;font-size:18px;animation:fade 1s forwards}
+
+@keyframes fade{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-25px)}}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="title">Happy Birthday Annie ❤️</div>
+<p class="subtitle">A little universe made just for you</p>
+
+<p>Countdown to your special day</p>
+<div id="countdown"></div>
+
+<div class="gift">🎁</div>
+
+<button onclick="openGift()">Open Your Surprise</button>
+
+<div class="message" id="message"></div>
+
+<div class="gallery" id="gallery">
+
+<div class="slide"><img src="IMG_20250220_120223_0122.jpg"><div class="caption">A special memory ❤️</div></div>
+<div class="slide"><img src="IMG20250308143221.jpg"><div class="caption">Moments I cherish</div></div>
+<div class="slide"><img src="IMG20250308143239.jpg"><div class="caption">Smiles and laughter</div></div>
+<div class="slide"><img src="IMG20250414120459.jpg"><div class="caption">Beautiful memories</div></div>
+<div class="slide"><img src="IMG20250414142639.jpg"><div class="caption">Happy Birthday Annie ❤️</div></div>
+
+</div>
+
+<div class="cake" id="cake">
+
+<div class="cake-box">
+<div class="layer top"></div>
+<div class="layer mid"></div>
+<div class="layer bottom"></div>
+<div class="candle"><div class="flame" id="flame"></div></div>
+</div>
+
+<br>
+<button onclick="startMicBlow()">🎤 Blow Candle With Mic</button>
+
+</div>
+
+<button class="letter-btn" id="letterBtn" onclick="openLetter()">💌 Open Birthday Letter</button>
+
+<div class="photo-grid" id="grid">
+<img src="IMG_20250220_120223_0122.jpg">
+<img src="IMG20250308143221.jpg">
+<img src="IMG20250308143239.jpg">
+<img src="IMG20250414120459.jpg">
+<img src="IMG20250414142639.jpg">
+</div>
+
+</div>
+
+<div class="letter" id="letter">
+<h3>For Annie ❤️</h3>
+<p>
+Hey my cutie patotie babaloos undaa😘. I love you soo soo much my lovelolikka💕😘. I wish u the Happiest Birthday my Kothravalichi👅. Hope u know I will always be there for u. MWAHHHH😘. And again HAPPYYYYY BIRTHDAYYYYY MY LOVEEEEE.
+</p>
+<button onclick="closeLetter()">Close</button>
+</div>
+
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3" type="audio/mpeg">
+</audio>
+
+<canvas id="fireworks"></canvas>
+
+<script>
+
+/* stars */
+for(let i=0;i<100;i++){
+let s=document.createElement("div");
+s.className="star";
+s.style.width=s.style.height=Math.random()*3+"px";
+s.style.left=Math.random()*100+"vw";
+s.style.top=Math.random()*100+"vh";
+document.body.appendChild(s);
+}
+
+/* countdown */
+const targetDate=new Date("March 26, 2026 00:00:00").getTime();
+
+setInterval(()=>{
+let now=new Date().getTime();
+let d=targetDate-now;
+let days=Math.floor(d/(1000*60*60*24));
+let hrs=Math.floor((d%(1000*60*60*24))/(1000*60*60));
+let min=Math.floor((d%(1000*60*60))/(1000*60));
+let sec=Math.floor((d%(1000*60))/1000);
+
+document.getElementById("countdown").innerHTML=
+`${days}d ${hrs}h ${min}m ${sec}s`;
+},1000);
+
+/* typing message */
+const text="Annie, I built this small world on the internet just to celebrate your birthday. I hope it makes you smile.";
+let i=0;
+
+function typeMessage(){
+let msg=document.getElementById("message");
+msg.style.display="block";
+if(i<text.length){msg.innerHTML+=text.charAt(i);i++;setTimeout(typeMessage,40)}
+}
+
+/* slideshow */
+let slideIndex=0;
+
+function showSlides(){
+let slides=document.getElementsByClassName("slide");
+for(let i=0;i<slides.length;i++) slides[i].style.display="none";
+slideIndex++;
+if(slideIndex>slides.length) slideIndex=1;
+slides[slideIndex-1].style.display="block";
+setTimeout(showSlides,3000);
+}
+
+/* fireworks */
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+function startFireworks(){
+setInterval(createFirework,900);
+setInterval(drawFireworks,30);
+}
+
+function createFirework(){
+let x=Math.random()*canvas.width;
+let y=Math.random()*canvas.height/2;
+for(let i=0;i<40;i++){
+particles.push({x:x,y:y,vx:(Math.random()-.5)*6,vy:(Math.random()-.5)*6,life:100});
+}
+}
+
+function drawFireworks(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+particles.forEach((p,i)=>{
+ctx.fillStyle="white";
+ctx.beginPath();
+ctx.arc(p.x,p.y,2,0,Math.PI*2);
+ctx.fill();
+
+p.x+=p.vx;
+p.y+=p.vy;
+p.life--;
+
+if(p.life<=0) particles.splice(i,1);
+});
+}
+
+/* open gift */
+function openGift(){
+let music=document.getElementById("music");
+music.play();
+
+startFireworks();
+
+if(i===0) typeMessage();
+
+ document.getElementById("gallery").style.display="block";
+ document.getElementById("cake").style.display="block";
+ document.getElementById("letterBtn").style.display="inline-block";
+ document.getElementById("grid").style.display="grid";
+
+showSlides();
+}
+
+/* mic blow */
+async function startMicBlow(){
+try{
+const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+const audioContext=new AudioContext();
+const mic=audioContext.createMediaStreamSource(stream);
+const analyser=audioContext.createAnalyser();
+mic.connect(analyser);
+
+const data=new Uint8Array(analyser.frequencyBinCount);
+
+function detect(){
+analyser.getByteFrequencyData(data);
+let volume=data.reduce((a,b)=>a+b)/data.length;
+
+if(volume>60){
+document.getElementById("flame").style.display="none";
+celebration();
+}
+
+requestAnimationFrame(detect);
+}
+
+detect();
+
+}catch(e){
+alert("Microphone permission needed to blow candle");
+}
+}
+
+/* letter */
+function openLetter(){document.getElementById("letter").style.display="block"}
+function closeLetter(){document.getElementById("letter").style.display="none"}
+
+/* cursor hearts */
+function celebration(){
+
+for(let i=0;i<120;i++){
+ let conf=document.createElement("div");
+ conf.innerHTML="🎉";
+ conf.style.position="fixed";
+ conf.style.left=Math.random()*100+"vw";
+ conf.style.top="-20px";
+ conf.style.fontSize=(20+Math.random()*20)+"px";
+ conf.style.animation="fall 3s linear forwards";
+ document.body.appendChild(conf);
+ setTimeout(()=>conf.remove(),3000);
+}
+
+for(let i=0;i<10;i++){
+ let t=document.createElement("div");
+ t.innerHTML="I Love You Annie ❤️";
+ t.style.position="fixed";
+ t.style.left=Math.random()*100+"vw";
+ t.style.top=Math.random()*100+"vh";
+ t.style.fontSize="20px";
+ t.style.fontWeight="bold";
+ document.body.appendChild(t);
+ setTimeout(()=>t.remove(),4000);
+}
+
+let final=document.createElement("div");
+final.innerHTML="🎉 HAPPY BIRTHDAY ANNIE ❤️ 🎉";
+final.style.position="fixed";
+final.style.top="40%";
+final.style.left="50%";
+final.style.transform="translate(-50%,-50%)";
+final.style.fontSize="36px";
+final.style.fontFamily="Dancing Script";
+final.style.background="rgba(0,0,0,0.6)";
+final.style.padding="20px 30px";
+final.style.borderRadius="15px";
+document.body.appendChild(final);
+
+setTimeout(()=>final.remove(),5000);
+}
+
+document.addEventListener("mousemove",e=>{
+let h=document.createElement("div");
+h.className="cursor-heart";
+h.innerHTML="❤️";
+h.style.left=e.pageX+"px";
+h.style.top=e.pageY+"px";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),1000);
+});
+
+
+/* balloons + rockets */
+function createBalloons(){
+ for(let i=0;i<4;i++){
+  let b=document.createElement("div");
+  const colors=["🎈","🎈","🎈","🎈"]; const texts=["CLICK ME","❤️ ANNIE ❤️","POP ME","CLICK ME"]; b.innerHTML=colors[Math.floor(Math.random()*colors.length)]+"<div style='font-size:22px;font-weight:bold'>"+texts[Math.floor(Math.random()*texts.length)]+"</div>";
+  b.style.position="fixed";
+  b.style.left=(i%2==0?"40px":"calc(100vw - 240px)");
+  b.style.bottom="-200px";
+  b.style.fontSize="200px";
+  b.style.textAlign="center";
+  b.style.cursor="pointer";
+  b.style.animation=`balloonFloat ${7+Math.random()*4}s linear infinite`;
+
+  b.onclick=()=>popBalloon(b);
+
+  document.body.appendChild(b);
+ }
+}
+
+function popBalloon(b){
+
+ // pop sound
+ let snd=document.createElement("audio");
+ snd.src="https://actions.google.com/sounds/v1/impacts/balloon_pop.ogg";
+ snd.play();
+
+ b.remove();
+
+ // random confetti everywhere
+ for(let i=0;i<80;i++){
+  let c=document.createElement("div");
+  c.innerHTML="•";
+c.style.width="6px";
+c.style.height="6px";
+c.style.background="white";
+c.style.borderRadius="50%";
+c.style.display="block";
+  c.style.position="fixed";
+  c.style.left=Math.random()*100+"vw";
+  c.style.top=Math.random()*100+"vh";
+  c.style.fontSize=(18+Math.random()*28)+"px";
+  c.style.animation="confExplode 3s ease-out forwards";
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),3000);
+ }
+
+ // rocket launch
+ for(let r=0;r<4;r++){
+  let rocket=document.createElement("div");
+  rocket.innerHTML="🚀";
+  rocket.style.position="fixed";
+  rocket.style.left=Math.random()*100+"vw";
+  rocket.style.bottom="-40px";
+  rocket.style.fontSize="40px";
+  rocket.style.transition="transform 1.2s linear";
+  document.body.appendChild(rocket);
+
+  setTimeout(()=>{
+   rocket.style.transform=`translateY(-${window.innerHeight+200}px)`;
+  },50);
+
+  setTimeout(()=>{
+   // rocket explosion with dot particles
+for(let k=0;k<60;k++){
+ let d=document.createElement("div");
+ d.style.position="fixed";
+ d.style.left=rocket.style.left;
+ d.style.top="30vh";
+ d.style.width="6px";
+ d.style.height="6px";
+ d.style.background="white";
+ d.style.borderRadius="50%";
+ d.style.transform=`translate(${(Math.random()-0.5)*400}px, ${(Math.random()-0.5)*400}px)`;
+ d.style.transition="transform 1s ease-out, opacity 1s";
+ document.body.appendChild(d);
+ setTimeout(()=>{d.style.opacity="0";},50);
+ setTimeout(()=>d.remove(),1200);
+}
+rocket.remove();
+
+   // chance to trigger sky message after several pops
+   if(Math.random()>0.7){ skyLove(); }
+  },1300);
+ }
+}
+
+createBalloons();
+
+// memories slideshow button
+let memBtn=document.createElement("button");
+memBtn.innerHTML="💖 Play Memories";
+memBtn.style.position="fixed";
+memBtn.style.bottom="20px";
+memBtn.style.right="20px";
+memBtn.style.padding="12px 18px";
+memBtn.style.fontSize="16px";
+memBtn.style.borderRadius="10px";
+memBtn.style.border="none";
+memBtn.style.background="pink";
+memBtn.style.cursor="pointer";
+document.body.appendChild(memBtn);
+
+memBtn.onclick=()=>{
+ let overlay=document.createElement("div");
+ overlay.style.position="fixed";
+ overlay.style.top="0";
+ overlay.style.left="0";
+ overlay.style.width="100vw";
+ overlay.style.height="100vh";
+ overlay.style.background="rgba(0,0,0,0.9)";
+ overlay.style.display="flex";
+ overlay.style.alignItems="center";
+ overlay.style.justifyContent="center";
+ overlay.style.zIndex="9999";
+
+ let img=document.createElement("img");
+ let pics=["IMG_20250220_120223_0122.jpg","IMG20250308143221.jpg","IMG20250308143239.jpg","IMG20250414120459.jpg","IMG20250414142639.jpg"];
+ let i=0;
+ img.src=pics[i];
+ img.style.maxWidth="90%";
+ img.style.maxHeight="90%";
+
+ setInterval(()=>{
+  i=(i+1)%pics.length;
+  img.src=pics[i];
+ },2000);
+
+ overlay.appendChild(img);
+ overlay.onclick=()=>overlay.remove();
+ document.body.appendChild(overlay);
+};
+
+function skyLove(){
+ let sky=document.createElement("div");
+ sky.innerHTML="✨ I LOVE YOU ANNIE ✨";
+ sky.style.position="fixed";
+ sky.style.top="20%";
+ sky.style.left="50%";
+ sky.style.transform="translateX(-50%)";
+ sky.style.fontSize="64px";
+ sky.style.fontWeight="bold";
+ sky.style.letterSpacing="6px";
+ sky.style.textShadow="0 0 20px #fff,0 0 40px pink";
+sky.style.webkitTextStroke="3px black";
+sky.style.paintOrder="stroke fill";
+ document.body.appendChild(sky);
+
+ // fireworks around text
+ for(let i=0;i<20;i++){
+  let f=document.createElement("div");
+  f.innerHTML=["🎆","✨","💥","🎇"][Math.floor(Math.random()*4)];
+  f.style.position="fixed";
+  f.style.left=Math.random()*100+"vw";
+  f.style.top=Math.random()*40+"vh";
+  f.style.fontSize=(30+Math.random()*30)+"px";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),2500);
+ }
+
+ setTimeout(()=>sky.remove(),5000);
+}
+
+</script>
+
+<style>
+@keyframes balloonFloat{
+ from{transform:translateY(0)}
+ to{transform:translateY(-120vh)}
+}
+
+@keyframes confFall{
+ from{transform:translateY(0);opacity:1}
+ to{transform:translateY(120vh);opacity:0}
+}
+</style>
+
+
+<script>
+// cake cutting interaction
+const cake = document.getElementById("cake");
+if(cake){
+ cake.style.cursor="pointer";
+ cake.addEventListener("click",()=>{
+
+  // cutting animation
+  cake.style.transform="scale(1.1) rotate(2deg)";
+
+  setTimeout(()=>{
+    cake.innerHTML="🍰";
+
+    // celebration burst
+    for(let i=0;i<70;i++){
+      let p=document.createElement("div");
+      p.innerHTML=["🎉","✨","💖","🎊"][Math.floor(Math.random()*4)];
+      p.style.position="fixed";
+      p.style.left=Math.random()*100+"vw";
+      p.style.top=Math.random()*100+"vh";
+      p.style.fontSize=(18+Math.random()*30)+"px";
+      p.style.animation="confExplode 3s ease-out forwards";
+      document.body.appendChild(p);
+      setTimeout(()=>p.remove(),3000);
+    }
+
+    // cake message
+    let msg=document.createElement("div");
+    msg.innerHTML="🍰 Cake Cut! Happy Birthday Annie ❤️";
+    msg.style.position="fixed";
+    msg.style.top="50%";
+    msg.style.left="50%";
+    msg.style.transform="translate(-50%,-50%)";
+    msg.style.fontSize="32px";
+    msg.style.background="rgba(0,0,0,0.6)";
+    msg.style.padding="20px 30px";
+    msg.style.borderRadius="15px";
+    document.body.appendChild(msg);
+
+    setTimeout(()=>msg.remove(),4000);
+
+  },400);
+
+ });
+}
+</script>
+
+</body>
+</html>
